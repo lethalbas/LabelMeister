@@ -1,0 +1,66 @@
+<UserControl x:Class="LabelMeister.Views.MoveCombineView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d">
+    <Grid Margin="16" Background="{StaticResource DarkBackground}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" 
+                   Text="Move &amp; Combine" 
+                   FontSize="24"
+                   FontWeight="SemiBold"
+                   Margin="0,0,0,16"/>
+
+        <StackPanel Grid.Row="1" Orientation="Vertical" Margin="0,0,0,16">
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,16" IsEnabled="{Binding IsEnabled}">
+                <Button Content="Combine Selected"
+                        Command="{Binding CombineSelectedCommand}"
+                        Margin="0,0,8,0"
+                        IsEnabled="{Binding IsEnabled}"/>
+                <Button Content="Discard Selected"
+                        Command="{Binding DiscardSelectedCommand}"
+                        Style="{StaticResource SecondaryButton}"
+                        Margin="0,0,8,0"
+                        IsEnabled="{Binding IsEnabled}"/>
+                <Button Content="Restore Selected"
+                        Command="{Binding RestoreSelectedCommand}"
+                        Style="{StaticResource SecondaryButton}"
+                        IsEnabled="{Binding IsEnabled}"/>
+            </StackPanel>
+            <CheckBox Content="Mark as completed" 
+                      IsChecked="{Binding IsCompleted, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      IsEnabled="{Binding IsEnabled}"/>
+        </StackPanel>
+
+        <Border Grid.Row="2" 
+                Padding="16"
+                Background="{StaticResource DarkSurfaceElevated}"
+                BorderBrush="{StaticResource DarkBorder}"
+                BorderThickness="1"
+                CornerRadius="4"
+                x:Name="PreviewBorder">
+            <Grid>
+                <Image Source="{Binding PreviewImage}"
+                       Stretch="Uniform"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       MaxWidth="800"
+                       MaxHeight="600"
+                       x:Name="PreviewImageControl"/>
+                <Canvas x:Name="RegionCanvas"
+                        Background="Transparent"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        MouseLeftButtonDown="RegionCanvas_MouseLeftButtonDown">
+                </Canvas>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>
+

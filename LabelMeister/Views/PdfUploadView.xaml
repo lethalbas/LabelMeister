@@ -1,0 +1,60 @@
+<UserControl x:Class="LabelMeister.Views.PdfUploadView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d">
+    <Grid Margin="16" Background="{StaticResource DarkBackground}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" 
+                   Text="PDF Upload" 
+                   FontSize="24"
+                   FontWeight="SemiBold"
+                   Margin="0,0,0,16"/>
+
+        <Border Grid.Row="1" 
+                Padding="16" 
+                Margin="0,0,0,16"
+                Background="{StaticResource DarkSurfaceElevated}"
+                BorderBrush="{StaticResource DarkBorder}"
+                BorderThickness="1"
+                CornerRadius="4">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Button Grid.Row="0"
+                        Content="Browse PDF"
+                        Command="{Binding BrowsePdfCommand}"
+                        Margin="0,0,0,16"
+                        HorizontalAlignment="Left"/>
+
+                <Image Grid.Row="1"
+                       Source="{Binding PreviewImage}"
+                       Stretch="Uniform"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       MaxWidth="800"
+                       MaxHeight="600"/>
+            </Grid>
+        </Border>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal">
+            <CheckBox Content="Mark as completed" 
+                      IsChecked="{Binding IsCompleted, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      VerticalAlignment="Center"
+                      Margin="0,0,16,0"/>
+            <TextBlock Text="{Binding StatusMessage}"
+                       FontSize="14"
+                       VerticalAlignment="Center"/>
+        </StackPanel>
+    </Grid>
+</UserControl>
+
