@@ -1,0 +1,56 @@
+﻿<Window x:Class="LabelMeister.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LabelMeister"
+        xmlns:views="clr-namespace:LabelMeister.Views"
+        mc:Ignorable="d"
+        Title="LabelMeister - Label Processing Application"
+        Height="800" Width="1200">
+    <Grid Background="{StaticResource DarkBackground}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Border Grid.Row="0" 
+                Padding="16"
+                VerticalAlignment="Top"
+                Background="{StaticResource DarkAccent}">
+            <TextBlock Text="LabelMeister" 
+                       FontSize="32"
+                       FontWeight="SemiBold"
+                       Foreground="White"/>
+        </Border>
+
+        <!-- Tab Navigation -->
+        <TabControl x:Name="MainTabControl" Grid.Row="1"
+                    SelectedIndex="{Binding SelectedTabIndex}"
+                    SelectionChanged="MainTabControl_SelectionChanged"
+                    Background="{StaticResource DarkBackground}"
+                    BorderThickness="0">
+            <TabControl.Items>
+                <TabItem x:Name="PdfUploadTab" 
+                         Header="1. PDF Upload"
+                         IsEnabled="True"/>
+                <TabItem x:Name="RasterizeTab" 
+                         Header="2. Rasterize"
+                         IsEnabled="{Binding IsTab0Completed, Mode=OneWay}"/>
+                <TabItem x:Name="MoveCombineTab" 
+                         Header="3. Move &amp; Combine"
+                         IsEnabled="{Binding IsTab1Completed, Mode=OneWay}"/>
+                <TabItem x:Name="StripSelectionTab" 
+                         Header="4. Strip Selection"
+                         IsEnabled="{Binding IsTab2Completed, Mode=OneWay}"/>
+                <TabItem x:Name="PlacementTab" 
+                         Header="5. Placement"
+                         IsEnabled="{Binding IsTab3Completed, Mode=OneWay}"/>
+                <TabItem x:Name="ExportTab" 
+                         Header="6. Export"
+                         IsEnabled="{Binding IsTab4Completed, Mode=OneWay}"/>
+            </TabControl.Items>
+        </TabControl>
+    </Grid>
+</Window>

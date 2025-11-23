@@ -1,0 +1,56 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="LabelMeister.Core\LabelMeister.Core.csproj" />
+    <ProjectReference Include="LabelMeister.Services\LabelMeister.Services.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+    <PackageReference Include="ModernWpfUI" Version="0.9.6" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.1" />
+  </ItemGroup>
+
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <Compile Remove="LabelMeister.Tests\**" />
+    <EmbeddedResource Remove="LabelMeister.Tests\**" />
+    <None Remove="LabelMeister.Tests\**" />
+  </ItemGroup>
+
+  <Target Name="CopyPdfiumNativeDlls" AfterTargets="Build">
+    <ItemGroup>
+      <!-- Look for DLL in Build\x64 folder (where PdfiumViewer.Native.x86_64.v8-xfa package places it) -->
+      <PdfiumDlls Include="$(NuGetPackageRoot)pdfiumviewer.native.x86_64.v8-xfa\*\Build\x64\pdfium.dll" />
+      <PdfiumDlls Include="$(NuGetPackageRoot)PdfiumViewer.Native.x86_64.v8-xfa\*\Build\x64\pdfium.dll" />
+      <!-- Also check runtimes folder (fallback) -->
+      <PdfiumDlls Include="$(NuGetPackageRoot)pdfiumviewer.native.x86_64.v8-xfa\*\runtimes\win-x64\native\pdfium.dll" />
+      <PdfiumDlls Include="$(NuGetPackageRoot)PdfiumViewer.Native.x86_64.v8-xfa\*\runtimes\win-x64\native\pdfium.dll" />
+    </ItemGroup>
+    <!-- Copy to runtimes folder (standard location for .NET Core native DLLs) -->
+    <Copy SourceFiles="@(PdfiumDlls)" 
+          DestinationFolder="$(OutputPath)runtimes\win-x64\native" 
+          SkipUnchangedFiles="true" 
+          Condition="'@(PdfiumDlls)' != ''" />
+    <!-- Also copy to output directory root (PdfiumViewer may look here) -->
+    <Copy SourceFiles="@(PdfiumDlls)" 
+          DestinationFolder="$(OutputPath)" 
+          SkipUnchangedFiles="true" 
+          Condition="'@(PdfiumDlls)' != ''" />
+    <!-- Also copy to x64 subfolder (common fallback location) -->
+    <Copy SourceFiles="@(PdfiumDlls)" 
+          DestinationFolder="$(OutputPath)x64" 
+          SkipUnchangedFiles="true" 
+          Condition="'@(PdfiumDlls)' != ''" />
+  </Target>
+
+</Project>
